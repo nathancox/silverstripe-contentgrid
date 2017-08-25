@@ -26,14 +26,17 @@ class LeftAndMainExtension extends Extension
         $buttons = array();
         foreach ($rowTypes as $class => $properties) {
             $buttonName = 'insert-'.$class;
-            //$buttons[] = $buttonName;
 
             $js = '"'.$buttonName.'": {';
-            $js .= '"text": "'.$properties['text'].'",';
+            if (isset($properties['text'])) {
+                $js .= '"text": "'.$properties['text'].'",';
+            } else {
+                $js .= '"text": "'.$class.'",';
+            }
 
             $buttonClass = 'mce_insertcontentgrid';
-            if (isset($properties['class'])) {
-                $buttonClass .= ' ' .$properties['class'];
+            if (isset($properties['button_class'])) {
+                $buttonClass .= ' ' .$properties['button_class'];
             }
             $js .= '"class": "'.$buttonClass.'",';
 
@@ -50,8 +53,12 @@ class LeftAndMainExtension extends Extension
                 $cellClasses = implode(';', $properties['cell_classes']);
             }
 
-
-            $cells = $properties['cells'];
+            if (isset($properties['cells'])) {
+                $cells = $properties['cells'];
+            } else if (isset($properties['cell_classes'])) {
+                $cells = count($properties['cell_classes']);
+            }
+            
 
             $js .= <<<JS
 "onclick": function() {

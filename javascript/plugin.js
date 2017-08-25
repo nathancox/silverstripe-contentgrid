@@ -127,7 +127,6 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
                 target = target.parentNode
             }
 
-           // console.log(containerEl, button)
             button.disabled(e.element.nodeName.toLowerCase() != 'time')
         });
     }
@@ -136,17 +135,16 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
     function getCurrentContainer() {
         var containerEl = false
         var target = editor.selection.getNode()
-        while(target.nodeName.toLowerCase() != 'body' && containerEl === false) {
+        console.log(target)
+        while(target && target.nodeName.toLowerCase() != 'body' && containerEl === false) {
             
-            if (target.classList.contains(rowClass)) {
+            if (target.classList && target.classList.contains(rowClass)) {
                 return target
             }
 
             target = target.parentNode
         }
     }
-
-
 
     function moveUp() {
         var currentContainer = getCurrentContainer();
@@ -205,7 +203,6 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
                     editor.selection.setCursorLocation(next.firstChild);
                 }
                 //editor.dom.remove(deletedummy);
-
             }
         });
         return true;
@@ -231,20 +228,11 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
             settings.cell_classes = []
         }
 
-    //    console.log(settings.cell_classes)
 
-
-        // @TODO: make this configurable??
         var body = tinyMCE.activeEditor.getBody()
 
-
-/*
-        // adds to the end of the page
-        var row = tinyMCE.activeEditor.dom.add(body, 'div', {
-            'class' : rowClass+' '+settings.class
-        });
-*/
         // adds the new row after the currently selected one
+        // @TODO: configure whether it goes here or at the end?
         var row = tinyMCE.activeEditor.dom.create('div', {
             'class' : rowClass+' '+settings.class
         })
@@ -256,13 +244,9 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
         }
         
         
-        
         var i = 0
-        
         var cells = []
         var firstCell = false;
-
-
 
         while (i < settings.cells) {
             var cellClasses = cellClass
