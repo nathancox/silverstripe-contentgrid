@@ -4,7 +4,7 @@ Adds TinyMCE buttons to manage multi column layouts in SilverStripe CMS
 This is still a work in progress, hopefully better instructions will come later
 
 
-
+```yml
 ContentGrid\ContentGrid:
   row_types:
     twelve:
@@ -26,3 +26,4 @@ ContentGrid\ContentGrid:
       cell_classes:
         - content
         - sidebar
+```
