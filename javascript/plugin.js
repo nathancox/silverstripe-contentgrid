@@ -34,8 +34,8 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
     });
 
     var rowButtons = []
-    for (var id in window.contentGridInsertButtons) {
-        var data = window.contentGridInsertButtons[id]
+    for (var id in window.contentGridInsertButtons.row_types) {
+        var data = window.contentGridInsertButtons.row_types[id]
         if (data['cell_classes']) {
            data['cell_classes'] = data['cell_classes'].split(';') 
         }
@@ -261,11 +261,21 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
         
         var cells = []
         var firstCell = false;
+
+
+
         while (i < settings.cells) {
             var cellClasses = cellClass
-            console.log(i, settings.cell_classes[i])
+            
             if (settings.cell_classes[i]) {
                 cellClasses += ' ' + settings.cell_classes[i]
+            }
+
+            // @TODO: make auto first and last configurable?
+            if (i == 0 && window.contentGridInsertButtons.first_class) {
+                cellClasses += ' ' + window.contentGridInsertButtons.first_class
+            } else if (i == (settings.cells-1) && window.contentGridInsertButtons.last_class) {
+                cellClasses += ' ' + window.contentGridInsertButtons.last_class
             }
 
             var cell = tinyMCE.activeEditor.dom.create('div', {

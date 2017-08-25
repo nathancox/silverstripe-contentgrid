@@ -16,14 +16,15 @@ class LeftAndMainExtension extends Extension
 
     public function init()
     {
-        $config = ContentGrid::config()->row_types;
+        $config = ContentGrid::config();
+        $rowTypes =$config->row_types;
 
         TinyMCEConfig::get('cms')->enablePlugins(array('contentgrid' => '../../../contentgrid/javascript/plugin.js'));
 
         $jsRows = [];
 
         $buttons = array();
-        foreach ($config as $class => $properties) {
+        foreach ($rowTypes as $class => $properties) {
             $buttonName = 'insert-'.$class;
             //$buttons[] = $buttonName;
 
@@ -70,8 +71,17 @@ JS;
         TinyMCEConfig::get('cms')->removeButtons('contentgrid');
 
         $javascript = 'var contentGridInsertButtons = {';
+        
+        if ($config->first_class) {
+            $javascript .= 'first_class: "' . $config->first_class . '",';
+        }
+        if ($config->last_class) {
+            $javascript .= 'last_class: "' . $config->last_class . '",';
+        }
+
+        $javascript .= 'row_types: {';
         $javascript .= implode($jsRows, ',');
-        $javascript .= '};';
+        $javascript .= '}};';
 
         Requirements::customScript($javascript, 'contentgridclasses');
     }

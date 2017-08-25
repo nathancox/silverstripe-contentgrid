@@ -1,7 +1,10 @@
 ---
 Name: contentgrid
+before: mysite
 ---
-
 SilverStripe\Admin\LeftAndMain:
   extensions:
     - ContentGrid\LeftAndMainExtension
+ContentGrid\ContentGrid:
+  first_class: 'first'
+  last_class: 'last'
