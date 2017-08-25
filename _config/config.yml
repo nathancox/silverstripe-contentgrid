@@ -1,0 +1,7 @@
+---
+Name: contentgrid
+---
+
+SilverStripe\Admin\LeftAndMain:
+  extensions:
+    - ContentGrid\LeftAndMainExtension

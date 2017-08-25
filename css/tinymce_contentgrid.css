@@ -1,0 +1,15 @@
+.content-row {
+    margin-bottom:1px;
+    padding:4px;
+    padding-left:0;
+    padding-right:0;
+}
+.content-row:hover {
+    background:#f9f9f9;
+}
+
+.content-cell {
+    border:1px dashed #999999;
+    padding:2px;
+    min-height:1em;
+}
