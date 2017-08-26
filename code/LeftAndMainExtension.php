@@ -86,6 +86,9 @@ JS;
             $javascript .= 'last_class: "' . $config->last_class . '",';
         }
 
+        $javascript .= 'enabled: ' . ($config->enabled ? 'true' : 'false') . ',';
+        $javascript .= 'insert_at_end: ' . ($config->insert_at_end ? 'true' : 'false') . ',';
+
         $javascript .= 'row_types: {';
         $javascript .= implode($jsRows, ',');
         $javascript .= '}};';

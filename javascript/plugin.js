@@ -5,8 +5,26 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
     var cellClass = 'content-cell'
     var $ = tinymce.dom.DomQuery
 
-    editor.on('PreInit', function() {
+    // If contentgrid isn't enabled for this editor, skip the rest
+    var attribute = $(editor.targetElm).attr('data-content-grid')
+    if (typeof attribute == 'undefined') {
+        attribute = window.contentGridInsertButtons.enabled
+    }
+    if (attribute == false || attribute == 'false') {  
+        // This is an ugly hack to hide the empty toolbar where the grid
+        //  controls are meant to be     
+        editor.on('PreInit', function() {
+            $(editor.container).find('.mce-toolbar').each(function() {
+                if ($(this).find('.mce-btn').length == 0) {
+                    $(this).hide()
+                }
+            })
+        })
+        return
+    }
 
+
+    editor.on('PreInit', function() {
         editor.dom.loadCSS('contentgrid/css/tinymce_contentgrid.css')
 
         // turn body contenteditable off
@@ -16,22 +34,31 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
             var i = nodes.length, className, node
 
             while (i--) {
-                node = nodes[i];
+                node = nodes[i]
                 className = " " + node.attr("class") + " "
 
                 if (className.indexOf(cellClass) !== -1) {
                     // turn region contenteditable on
                     node.attr('contenteditable', "true")
-                } else if (className.indexOf(rowClass) !== -1) {
-                    //console.log('row', node)
                 }
             }
-        });
-    });
+        })
+    })
 
+
+    /**
+     * This deletes any root elements that aren't content rows.
+     * To get rid of TinyMCE's default "empty content" paragraph mostly.
+     */
+    editor.on('PostProcess', function (e) {
+        $(editor.getBody()).children(':not(.' + rowClass + ')').remove()
+    })
+
+/*
     editor.on('change', function(e) {
         console.log('change event', e)
-    });
+    })
+*/
 
     var rowButtons = []
     for (var id in window.contentGridInsertButtons.row_types) {
@@ -86,7 +113,7 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
             var button = this
             editor.on('NodeChange', function(e) {
                 var container = getCurrentContainer()
-                button.disabled(typeof container == 'undefined');
+                button.disabled(typeof container == 'undefined')
             });
         }
     })
@@ -112,7 +139,6 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
     }
 */
 
-
     function enableButtonWhenRowSelected() {
         var button = this
         editor.on('NodeChange', function(e) {
@@ -123,7 +149,6 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
                     containerEl = target
                     continue;
                 }
-
                 target = target.parentNode
             }
 
@@ -131,61 +156,57 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
         });
     }
 
-
     function getCurrentContainer() {
         var containerEl = false
         var target = editor.selection.getNode()
-        console.log(target)
         while(target && target.nodeName.toLowerCase() != 'body' && containerEl === false) {
-            
             if (target.classList && target.classList.contains(rowClass)) {
                 return target
             }
-
             target = target.parentNode
         }
     }
 
     function moveUp() {
-        var currentContainer = getCurrentContainer();
-        var previous = currentContainer.previousSibling;
+        var currentContainer = getCurrentContainer()
+        var previous = currentContainer.previousSibling
 
         if (previous === null) {
-            return false;
+            return false
         }
 
-        var parentNode = currentContainer.parentNode;
+        var parentNode = currentContainer.parentNode
 
         // my kingdom for insertAfter()
-        var oldPrevious = parentNode.removeChild(previous);
-        var next = currentContainer.nextSibling;
+        var oldPrevious = parentNode.removeChild(previous)
+        var next = currentContainer.nextSibling
         if (next) {
-            parentNode.insertBefore(oldPrevious, next);
+            parentNode.insertBefore(oldPrevious, next)
         } else {
-            parentNode.append(oldPrevious);
+            parentNode.append(oldPrevious)
         }
     }
 
     function moveDown() {
-        var currentContainer = getCurrentContainer();
-        var next = currentContainer.nextSibling;
+        var currentContainer = getCurrentContainer()
+        var next = currentContainer.nextSibling
 
         if (next === null) {
-            return false;
+            return false
         }
 
-        var parentNode = currentContainer.parentNode;
-        var oldNext = parentNode.removeChild(next);
-        parentNode.insertBefore(oldNext, currentContainer);
+        var parentNode = currentContainer.parentNode
+        var oldNext = parentNode.removeChild(next)
+        parentNode.insertBefore(oldNext, currentContainer)
     }
 
     function deleteRow() {
-        var currentContainer = getCurrentContainer();
+        var currentContainer = getCurrentContainer()
         if (!currentContainer) {
-            return false;
+            return false
         }
-        var next = currentContainer.nextSibling;
-        var previous = currentContainer.previousSibling;
+        var next = currentContainer.nextSibling
+        var previous = currentContainer.previousSibling
 
         // this just stops you deleting it if there are no siblings
         // @TODO: find a better way, including things like http://archive.tinymce.com/wiki.php/api4:method.tinymce.dom.DOMUtils.getNext
@@ -195,12 +216,12 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
 
         editor.windowManager.confirm('Are you sure you want to delete this row?', function(state) {
             if (state) {
-                editor.dom.remove(currentContainer);
+                editor.dom.remove(currentContainer)
                 // @TODO: make it register this content change
-                editor.focus();
-                editor.nodeChanged();
+                editor.focus()
+                editor.nodeChanged()
                 if (next) {
-                    editor.selection.setCursorLocation(next.firstChild);
+                    editor.selection.setCursorLocation(next.firstChild)
                 }
                 //editor.dom.remove(deletedummy);
             }
@@ -208,10 +229,7 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
         return true;
     }
 
-
-
     function insertRow(settings) {
-
         if (!settings) {
             var settings = {}
         }
@@ -228,16 +246,15 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
             settings.cell_classes = []
         }
 
-
         var body = tinyMCE.activeEditor.getBody()
 
         // adds the new row after the currently selected one
-        // @TODO: configure whether it goes here or at the end?
         var row = tinyMCE.activeEditor.dom.create('div', {
             'class' : rowClass+' '+settings.class
         })
+
         var current = getCurrentContainer()
-        if (current) {
+        if (current && (window.contentGridInsertButtons.insert_at_end === false || window.contentGridInsertButtons.insert_at_end === 'false')) {
             tinyMCE.activeEditor.dom.insertAfter(row, getCurrentContainer())
         } else {
             tinyMCE.activeEditor.dom.add(body, row)
@@ -255,7 +272,6 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
                 cellClasses += ' ' + settings.cell_classes[i]
             }
 
-            // @TODO: make auto first and last configurable?
             if (i == 0 && window.contentGridInsertButtons.first_class) {
                 cellClasses += ' ' + window.contentGridInsertButtons.first_class
             } else if (i == (settings.cells-1) && window.contentGridInsertButtons.last_class) {
