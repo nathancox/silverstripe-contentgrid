@@ -43,8 +43,15 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
                 }
             }
         })
-    })
 
+        editor.serializer.addAttributeFilter('contenteditable', function(nodes) {
+            var i = nodes.length, node;
+            while (i--) {
+                node = nodes[i];
+                node.attr('contenteditable', null);
+            }
+        });
+    })
 
     /**
      * This deletes any root elements that aren't content rows.
