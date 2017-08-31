@@ -4,7 +4,7 @@ Adds TinyMCE buttons for creating content structured in grids/columns.  You crea
 
 **This module is still work in progress**
 
-[example of contentgrid in TinyMCE](./docs/content-grid-1.png)
+![example of contentgrid in TinyMCE](./docs/content-grid-1.png)
 
 
 ## Maintainer Contact
