@@ -4,7 +4,7 @@ Adds TinyMCE buttons for creating content structured in grids/columns.  You crea
 
 **This module is still work in progress**
 
-[example of contentgrid in TinyMCE](./doc/content-grid-1.png)
+[example of contentgrid in TinyMCE](./docs/content-grid-1.png)
 
 
 ## Maintainer Contact
@@ -20,44 +20,63 @@ Adds TinyMCE buttons for creating content structured in grids/columns.  You crea
 Composer coming some day.
 
 
-
 You will have to make your own grid CSS in your site's theme, this module doesn't provide one. The module inserts the following markup:
 
 ```html
-<div class="content-row your-row-class">
+<div class="content-row {your-row-class}">
   <div class="content-cell first"></div>
   <div class="content-cell"></div>
   ...
   <div class="content-cell last"></div>
 </div>
 ```
-In future these class names will be configurable but for now it always uses `.content-row` and `.grid-row`.  Make sure your grid styles are accessible in editor.css so they work in TinyMCE.
 
+So basically a wrapper div with a div in it for each column.  {your-row-class} is a class specific to each row layout, such as "two-column" for two equal width columns or "with-sidebar" for a content column and a sidebar column.  Whatever your needs and grid system require.
 
+In future these class names should be configurable but for now it always uses `.content-row` and `.grid-row`.
+
+Make sure your grid styles are accessible in editor.css so they work in TinyMCE.
+
+To set up the row dropdown options set the row_types property in your yml config:
 
 ```yml
 NathanCox\ContentGrid\ContentGrid:
   row_types:
-    twelve:
-      cells: 1
-      text: 1
-    six-six:
+    full-width:               # "twelve" is the name of the {your-row-class} added to the row's element.
+      cells: 1                # The number of cells on this row.  In this case a single full-width column.
+      text: 1                 # The label the user will see in the dropdown.
+    two-columns:
       cells: 2
       text: 1-1
-    four-four-four:
-      cells: 3
-      text: 1-1-1
-      cell_classes:
-        - a
-        - 
-        - c
-    eight-four:
+    with-sidebar:
       cells: 2
       text: 2-1
-      cell_classes:
+      cell_classes:           # Specify classes for each cell/column in order.
         - content
         - sidebar
+    three-columns:
+      cells: 3
+      text: 1-1-1
+      cell_classes:         
+        - left                # First column
+        -                     # No class for the second column
+        - right               # Third column
 ```
+
+Additional configuration options and their defaults:
+
+```yml
+NathanCox\ContentGrid\ContentGrid:
+  first_class: "first"          # Set the class to be added to the first cell of every row.  Defaults to "first".
+  last_class: "first"           # Set the class to be added to the last cell of every row.  Defaults to "last".
+  insert_at_end: false          # Set this to true to always insert new rows at the end fo the page instead of after the current row.
+  enabled: true                 # Enable ContentGrid for all HTMLEditorFields.  See below.
+```
+
+If `enabled` is set to `true` then this module will apply to all HTMLEditorFields.  Individual fields can be excluded be excluded by using `$field->setAttribute('data-content-grid', 'false')`.
+
+If `enabled` is `false` then grids can be enabled for individual HTMLEditorFields by using `$field->setAttribute('data-content-grid', 'false')`.
+
 
 ## Usage
 
