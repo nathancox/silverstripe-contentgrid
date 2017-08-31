@@ -1,5 +1,5 @@
 {
-    "name": "nathancox/contentblocks",
+    "name": "nathancox/contentgrid",
     "description": "Adds TinyMCE buttons for creating content structured in grids/columns.",
     "homepage": "https://github.com/nathancox/silverstripe-contentgrid",
     "keywords": [
