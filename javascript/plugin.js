@@ -10,9 +10,9 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
     if (typeof attribute == 'undefined') {
         attribute = window.contentGridInsertButtons.enabled
     }
-    if (attribute == false || attribute == 'false') {  
+    if (attribute == false || attribute == 'false') {
         // This is an ugly hack to hide the empty toolbar where the grid
-        //  controls are meant to be     
+        //  controls are meant to be
         editor.on('PreInit', function() {
             $(editor.container).find('.mce-toolbar').each(function() {
                 if ($(this).find('.mce-btn').length == 0) {
@@ -43,8 +43,15 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
                 }
             }
         })
-    })
 
+        editor.serializer.addAttributeFilter('contenteditable', function(nodes) {
+            var i = nodes.length, node;
+            while (i--) {
+                node = nodes[i];
+                node.attr('contenteditable', null);
+            }
+        });
+    })
 
     /**
      * This deletes any root elements that aren't content rows.
@@ -64,9 +71,9 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
     for (var id in window.contentGridInsertButtons.row_types) {
         var data = window.contentGridInsertButtons.row_types[id]
         if (data['cell_classes']) {
-           data['cell_classes'] = data['cell_classes'].split(';') 
+           data['cell_classes'] = data['cell_classes'].split(';')
         }
-        
+
         rowButtons.push(data)
     }
 
@@ -259,22 +266,22 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
         } else {
             tinyMCE.activeEditor.dom.add(body, row)
         }
-        
-        
+
         var i = 0
         var cells = []
         var firstCell = false;
 
         while (i < settings.cells) {
             var cellClasses = cellClass
-            
+
             if (settings.cell_classes[i]) {
                 cellClasses += ' ' + settings.cell_classes[i]
             }
 
             if (i == 0 && window.contentGridInsertButtons.first_class) {
                 cellClasses += ' ' + window.contentGridInsertButtons.first_class
-            } else if (i == (settings.cells-1) && window.contentGridInsertButtons.last_class) {
+            }
+            if (i == (settings.cells-1) && window.contentGridInsertButtons.last_class) {
                 cellClasses += ' ' + window.contentGridInsertButtons.last_class
             }
 

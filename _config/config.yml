@@ -4,4 +4,4 @@ before: mysite
 ---
 SilverStripe\Admin\LeftAndMain:
   extensions:
-    - ContentGrid\LeftAndMainExtension
+    - NathanCox\ContentGrid\LeftAndMainExtension

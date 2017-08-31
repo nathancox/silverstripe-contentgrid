@@ -1,6 +1,6 @@
 <?php
 
-nameSpace ContentGrid;
+nameSpace NathanCox\ContentGrid;
 
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extension;
@@ -25,7 +25,7 @@ class ContentGrid
      * @config
      */
     private static $last_class = 'last';
-    
+
 
     /**
      * If set to true the grid controls will be applied to all HTMLEditorFields.

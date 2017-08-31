@@ -1,6 +1,6 @@
 <?php
 
-namespace ContentGrid;
+namespace NathanCox\ContentGrid;
 
 use SilverStripe\Core\Extension;
 use SilverStripe\Core\Convert;
@@ -58,7 +58,7 @@ class LeftAndMainExtension extends Extension
             } else if (isset($properties['cell_classes'])) {
                 $cells = count($properties['cell_classes']);
             }
-            
+
 
             $js .= <<<JS
 "onclick": function() {
@@ -78,7 +78,7 @@ JS;
         TinyMCEConfig::get('cms')->removeButtons('contentgrid');
 
         $javascript = 'var contentGridInsertButtons = {';
-        
+
         if ($config->first_class) {
             $javascript .= 'first_class: "' . $config->first_class . '",';
         }
