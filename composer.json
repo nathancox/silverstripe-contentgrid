@@ -9,7 +9,7 @@
     ],
     "type": "silverstripe-module",
     "require": {
-        "silverstripe/cms": "^4.0",
+        "silverstripe/cms": "^4.0"
     },
     "license": "MIT",
     "authors": [
