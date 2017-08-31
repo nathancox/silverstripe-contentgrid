@@ -87,6 +87,6 @@ If `enabled` is `false` then grids can be enabled for individual HTMLEditorField
 * Once you've inserted a row you can't change the number or layout of it's columns.  You'll have to insert a new row and copy the content in to that instead.
 
 
-##Known Issues
+## Known Issues
 
 [Issue Tracker](https://github.com/nathancox/silverstripe-contentgrid/issues)
