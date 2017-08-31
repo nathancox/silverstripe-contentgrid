@@ -1,0 +1,26 @@
+{
+    "name": "nathancox/contentblocks",
+    "description": "Adds TinyMCE buttons for creating content structured in grids/columns.",
+    "homepage": "https://github.com/nathancox/silverstripe-contentgrid",
+    "keywords": [
+        "silverstripe",
+        "content",
+        "tinymce"
+    ],
+    "type": "silverstripe-module",
+    "require": {
+        "silverstripe/cms": "^4.0",
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nathan Cox",
+            "email": "me@nathan.net.nz"
+        }
+    ],
+	"extra": {
+		"screenshots": [
+			"http://static.flyingmonkey.co.nz/github/silverstripe-contentgrid/docs/content-grid-1.png"
+		]
+	}
+}

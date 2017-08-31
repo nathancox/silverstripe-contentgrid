@@ -23,7 +23,6 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
         return
     }
 
-
     editor.on('PreInit', function() {
         editor.dom.loadCSS('contentgrid/css/tinymce_contentgrid.css')
 
@@ -300,10 +299,3 @@ tinymce.PluginManager.add('contentgrid', function(editor, url) {
     }
 
 });
-
-
-
-
-
-
-
