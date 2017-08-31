@@ -17,7 +17,7 @@ Adds TinyMCE buttons for creating content structured in grids/columns.  You crea
 
 ## Installation
 
-Composer coming some day.
+`composer require "nathancox/contentgrid"`
 
 
 You will have to make your own grid CSS in your site's theme, this module doesn't provide one. The module inserts the following markup:
