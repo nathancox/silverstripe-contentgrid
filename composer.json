@@ -9,7 +9,7 @@
     ],
     "type": "silverstripe-module",
     "require": {
-        "silverstripe/cms": "^4.0"
+        "silverstripe/cms": "~3.6"
     },
     "license": "MIT",
     "authors": [
@@ -20,7 +20,7 @@
     ],
 	"extra": {
 		"screenshots": [
-			"http://static.flyingmonkey.co.nz/github/silverstripe-contentgrid/docs/content-grid-1.png"
+			"http://static.flyingmonkey.co.nz/github/silverstripe-contentgrid/docs/content-grid-ss3.png"
 		]
 	}
 }

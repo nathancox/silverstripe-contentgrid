@@ -1,14 +1,9 @@
 <?php
 
-nameSpace NathanCox\ContentGrid;
 
-use SilverStripe\Core\Config\Configurable;
-use SilverStripe\Core\Extension;
-use SilverStripe\Core\Object;
 
-class ContentGrid
+class ContentGrid extends Object
 {
-	use Configurable;
     /**
      * @config
      */

@@ -2,9 +2,9 @@
 
 Adds TinyMCE buttons for creating content structured in grids/columns.  You create your own grid markup and classes.  Grid rows aren't nestable (yet) and assume assume all the content in the field will be stored in grid rows (you can't have content that isn't in one) so make sure to provide a "100% width" option.
 
-**This module is still work in progress**
+**NOTE: this module doesn't work well in SilverStripe 3 in Chrome due to a weird Chrome/TinyMCE bug.**
 
-![example of contentgrid in TinyMCE](./docs/content-grid-1.png)
+![example of contentgrid in TinyMCE](./docs/content-grid-ss3.png)
 
 
 ## Maintainer Contact
@@ -13,11 +13,17 @@ Adds TinyMCE buttons for creating content structured in grids/columns.  You crea
 
 ## Requirements
 
-* silverstripe/cms >=4.0
+* silverstripe/cms >=3.6
 
 ## Installation
 
 `composer require "nathancox/contentgrid"`
+
+Put the following (or something similar) in your project's _config.php:
+
+```php
+HtmlEditorConfig::get('cms')->addButtonsToLine(3, 'contentgrid');
+```
 
 
 You will have to make your own grid CSS in your site's theme, this module doesn't provide one. The module inserts the following markup:
@@ -40,7 +46,7 @@ Make sure your grid styles are accessible in editor.css so they work in TinyMCE.
 To set up the row dropdown options set the row_types property in your yml config:
 
 ```yml
-NathanCox\ContentGrid\ContentGrid:
+ContentGrid:
   row_types:
     full-width:               # "twelve" is the name of the {your-row-class} added to the row's element.
       cells: 1                # The number of cells on this row.  In this case a single full-width column.
@@ -66,7 +72,7 @@ NathanCox\ContentGrid\ContentGrid:
 Additional configuration options and their defaults:
 
 ```yml
-NathanCox\ContentGrid\ContentGrid:
+ContentGrid:
   first_class: "first"          # Set the class to be added to the first cell of every row.  Defaults to "first".
   last_class: "first"           # Set the class to be added to the last cell of every row.  Defaults to "last".
   insert_at_end: false          # Set this to true to always insert new rows at the end fo the page instead of after the current row.
@@ -81,6 +87,12 @@ If `enabled` is `false` then grids can be enabled for individual HTMLEditorField
 ## Usage
 
 * Only content inside grid cells is editable.  That means at least one grid row has to be inserted before any content can be put on the page.
+** You can set a row as the default content by putting something like this in your `Page.php`:
+```php
+private static $defaults = array(
+	'Content' => '<div class="content-row twelve"><div class="content-cell"><p><br /></p></div></div>'
+);
+```
 * Insert a row by picking an option from the *Insert a row* dropdown.  The new row will either be added at the bottom of the content or immediately after the currently selected row, depending on configuration.
 * Use the *Move up* and *Move down* buttons to move the currently selected row up or down the page.
 * Use the *Delete* button to delete the current row and all it's content.

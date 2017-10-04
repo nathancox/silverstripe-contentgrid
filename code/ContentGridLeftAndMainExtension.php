@@ -1,25 +1,18 @@
 <?php
 
-namespace NathanCox\ContentGrid;
-
-use SilverStripe\Core\Extension;
-use SilverStripe\Core\Convert;
-use SilverStripe\View\Requirements;
-use SilverStripe\Forms\HTMLEditor\TinyMCEConfig;
-
 
 /**
  * This adds the TinyMCE config to LeftAndMain
  */
-class LeftAndMainExtension extends Extension
+class ContentGridLeftAndMainExtension extends Extension
 {
 
     public function init()
     {
         $config = ContentGrid::config();
-        $rowTypes =$config->row_types;
+        $rowTypes = $config->row_types;
 
-        TinyMCEConfig::get('cms')->enablePlugins(array('contentgrid' => '../../../contentgrid/javascript/plugin.js'));
+        HtmlEditorConfig::get('cms')->enablePlugins(array('contentgrid' => '../../../contentgrid/javascript/plugin.js'));
 
         $jsRows = [];
 
@@ -74,8 +67,9 @@ JS;
         $buttons[] = 'contentgrid-movedown';
         $buttons[] = 'contentgrid-deleterow';
 
-        TinyMCEConfig::get('cms')->insertButtonsAfter('contentgrid', $buttons);
-        TinyMCEConfig::get('cms')->removeButtons('contentgrid');
+        HtmlEditorConfig::get('cms')->insertButtonsAfter('contentgrid', 'contentgrid-insertrow', 'contentgrid-moveup', 'contentgrid-movedown', 'contentgrid-deleterow');
+        //HtmlEditorConfig::get('cms')->insertButtonsAfter('contentgrid', ...$buttons);
+        HtmlEditorConfig::get('cms')->removeButtons('contentgrid');
 
         $javascript = 'var contentGridInsertButtons = {';
 

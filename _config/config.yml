@@ -2,6 +2,6 @@
 Name: contentgrid
 before: mysite
 ---
-SilverStripe\Admin\LeftAndMain:
+LeftAndMain:
   extensions:
-    - NathanCox\ContentGrid\LeftAndMainExtension
+    - ContentGridLeftAndMainExtension
